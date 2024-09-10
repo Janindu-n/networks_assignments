@@ -1,0 +1,10 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     read_pcap.out
+relocations:
+  - { offsetInCU: 0x26, offset: 0x26, size: 0x8, addend: 0x0, symName: _print_udp_packet, symObjAddr: 0x0, symBinAddr: 0x1000039E0, symSize: 0x268 }
+  - { offsetInCU: 0x91, offset: 0x91, size: 0x8, addend: 0x0, symName: _print_udp_packet, symObjAddr: 0x0, symBinAddr: 0x1000039E0, symSize: 0x268 }
+  - { offsetInCU: 0x109, offset: 0x109, size: 0x8, addend: 0x0, symName: __OSSwapInt16, symObjAddr: 0x268, symBinAddr: 0x100003C48, symSize: 0x24 }
+  - { offsetInCU: 0x131, offset: 0x131, size: 0x8, addend: 0x0, symName: _read_pcap_file, symObjAddr: 0x28C, symBinAddr: 0x100003C6C, symSize: 0x188 }
+  - { offsetInCU: 0x1A9, offset: 0x1A9, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x414, symBinAddr: 0x100003DF4, symSize: 0x80 }
+...
