@@ -7,7 +7,8 @@
 #define PCAP_RECORD_HEADER_LEN 16
 #define ETHERNET_HEADER_LEN 14
 #define IP_HEADER_LEN 20
-#define SKIP_BYTES (PCAP_RECORD_HEADER_LEN + ETHERNET_HEADER_LEN + IP_HEADER_LEN)
+#define UDP_HEADER_LEN 8
+#define SKIP_HEADERS_LEN (PCAP_RECORD_HEADER_LEN + ETHERNET_HEADER_LEN + IP_HEADER_LEN)
 
 struct udp_header {
     unsigned short source_port;
@@ -17,8 +18,7 @@ struct udp_header {
 };
 
 // Function to print UDP packet details
-void print_udp_packet(const unsigned char *data, int size, int temp_s) {
-    //for (int i=temp_s; i>0; i-=udp->length)
+void print_udp_packet(const unsigned char *data, int data_len) {
     struct udp_header *udp = (struct udp_header *)(data);
 
     printf("============================\n");
@@ -28,7 +28,7 @@ void print_udp_packet(const unsigned char *data, int size, int temp_s) {
     printf("Checksum: 0x%x\n", ntohs(udp->checksum));
 
     printf("Data: ");
-    for (int i = sizeof(struct udp_header); i < size; i++) {
+    for (int i = sizeof(struct udp_header); i < data_len; i++) {
         if (data[i] >= 32 && data[i] <= 126) {
             printf("%c", data[i]); // ASCII characters
         } else {
@@ -36,11 +36,6 @@ void print_udp_packet(const unsigned char *data, int size, int temp_s) {
         }
     }
     printf("\n\n");
-    int rem_packet =size-ntohs(udp->length);
-    printf("Remaining size: %d\n", rem_packet);
-    if (rem_packet>0){
-        print_udp_packet(data-rem_packet, rem_packet,temp_s);
-    }
 }
 
 // Function to read and parse a PCAP file
@@ -51,34 +46,28 @@ void read_pcap_file(const char *filename) {
         exit(EXIT_FAILURE);
     }
 
-    unsigned char buffer[65536]; 
+    unsigned char buffer[65536]; // Buffer to store packet data
     int packet_count = 0;
 
+    // Skip the global header (first 24 bytes)
     fseek(file, PCAP_GLOBAL_HEADER_LEN, SEEK_SET);
 
-    while (fread(buffer, 1, SKIP_BYTES, file) == SKIP_BYTES) {
+    while (fread(buffer, 1, SKIP_HEADERS_LEN, file) == SKIP_HEADERS_LEN) {
+        // reading 16 + 14 + 20 bytes, we are now at the UDP header
+        // Read UDP header
+        fread(buffer, 1, UDP_HEADER_LEN, file); 
+
+        struct udp_header *udp = (struct udp_header *)(buffer);
+        int udp_length = ntohs(udp->length); 
 
 
+        // data to read after headers
+        int data_size = udp_length - UDP_HEADER_LEN; 
+        fread(buffer + UDP_HEADER_LEN, 1, data_size, file);
+        printf("Packet #%d:\n", ++packet_count);
+        print_udp_packet(buffer, udp_length);
 
-
-
-
-        int udp_data_size = fread(buffer, 1, sizeof(buffer), file);
-        int tempsize = udp_data_size;
-        if (udp_data_size > 0) {
-
-            
-                printf("%d", udp_data_size);
-                printf("Packet #%d:\n", ++packet_count);
-                print_udp_packet(buffer, udp_data_size, tempsize);
-
-
-            
-            
-            
-        } else {
-            break;
-        }
+        
     }
 
     fclose(file);
