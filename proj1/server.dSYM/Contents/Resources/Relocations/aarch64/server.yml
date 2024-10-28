@@ -1,0 +1,16 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     server
+relocations:
+  - { offsetInCU: 0x26, offset: 0x26, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x0, symBinAddr: 0x100002024, symSize: 0x874 }
+  - { offsetInCU: 0x153, offset: 0x153, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x0, symBinAddr: 0x100002024, symSize: 0x874 }
+  - { offsetInCU: 0x3B7, offset: 0x3B7, size: 0x8, addend: 0x0, symName: __OSSwapInt16, symObjAddr: 0x874, symBinAddr: 0x100002898, symSize: 0x24 }
+  - { offsetInCU: 0x3DF, offset: 0x3DF, size: 0x8, addend: 0x0, symName: _process_command, symObjAddr: 0x898, symBinAddr: 0x1000028BC, symSize: 0x72C }
+  - { offsetInCU: 0x45B, offset: 0x45B, size: 0x8, addend: 0x0, symName: _send_response, symObjAddr: 0xFC4, symBinAddr: 0x100002FE8, symSize: 0x50 }
+  - { offsetInCU: 0x490, offset: 0x490, size: 0x8, addend: 0x0, symName: _authenticate, symObjAddr: 0x1014, symBinAddr: 0x100003038, symSize: 0x178 }
+  - { offsetInCU: 0x506, offset: 0x506, size: 0x8, addend: 0x0, symName: _parse_port_command, symObjAddr: 0x118C, symBinAddr: 0x1000031B0, symSize: 0xF8 }
+  - { offsetInCU: 0x5A8, offset: 0x5A8, size: 0x8, addend: 0x0, symName: _start_data_transfer, symObjAddr: 0x1284, symBinAddr: 0x1000032A8, symSize: 0x304 }
+  - { offsetInCU: 0x645, offset: 0x645, size: 0x8, addend: 0x0, symName: _send_file, symObjAddr: 0x1588, symBinAddr: 0x1000035AC, symSize: 0x104 }
+  - { offsetInCU: 0x6B6, offset: 0x6B6, size: 0x8, addend: 0x0, symName: _receive_file, symObjAddr: 0x168C, symBinAddr: 0x1000036B0, symSize: 0x110 }
+  - { offsetInCU: 0x727, offset: 0x727, size: 0x8, addend: 0x0, symName: _send_list, symObjAddr: 0x179C, symBinAddr: 0x1000037C0, symSize: 0x124 }
+...
